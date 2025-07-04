@@ -99,16 +99,20 @@ For users who prefer working with command line tools, you can run the AI Hedge F
 
 Choose one of the following installation methods:
 
-#### Using Poetry
+#### Using uv
 
-1. Install Poetry (if not already installed):
+1. Install uv (if not already installed):
 ```bash
-curl -sSL https://install.python-poetry.org | python3 -
+# On macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# On Windows
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
 2. Install dependencies:
 ```bash
-poetry install
+uv sync
 ```
 
 #### Using Docker
@@ -129,9 +133,9 @@ cd docker
 run.bat build
 ```
 
-#### Running the AI Hedge Fund (with Poetry)
+#### Running the AI Hedge Fund (with uv)
 ```bash
-poetry run python src/main.py --ticker AAPL,MSFT,NVDA
+uv run python src/main.py --ticker AAPL,MSFT,NVDA
 ```
 
 #### Running the AI Hedge Fund (with Docker)
@@ -149,8 +153,8 @@ run.bat --ticker AAPL,MSFT,NVDA main
 You can also specify a `--ollama` flag to run the AI hedge fund using local LLMs.
 
 ```bash
-# With Poetry:
-poetry run python src/main.py --ticker AAPL,MSFT,NVDA --ollama
+# With uv:
+uv run python src/main.py --ticker AAPL,MSFT,NVDA --ollama
 
 # With Docker (from docker/ directory):
 # On Linux/Mac:
@@ -163,8 +167,8 @@ run.bat --ticker AAPL,MSFT,NVDA --ollama main
 You can also specify a `--show-reasoning` flag to print the reasoning of each agent to the console.
 
 ```bash
-# With Poetry:
-poetry run python src/main.py --ticker AAPL,MSFT,NVDA --show-reasoning
+# With uv:
+uv run python src/main.py --ticker AAPL,MSFT,NVDA --show-reasoning
 
 # With Docker (from docker/ directory):
 # On Linux/Mac:
@@ -177,8 +181,8 @@ run.bat --ticker AAPL,MSFT,NVDA --show-reasoning main
 You can optionally specify the start and end dates to make decisions for a specific time period.
 
 ```bash
-# With Poetry:
-poetry run python src/main.py --ticker AAPL,MSFT,NVDA --start-date 2024-01-01 --end-date 2024-03-01 
+# With uv:
+uv run python src/main.py --ticker AAPL,MSFT,NVDA --start-date 2024-01-01 --end-date 2024-03-01 
 
 # With Docker (from docker/ directory):
 # On Linux/Mac:
@@ -188,9 +192,9 @@ poetry run python src/main.py --ticker AAPL,MSFT,NVDA --start-date 2024-01-01 --
 run.bat --ticker AAPL,MSFT,NVDA --start-date 2024-01-01 --end-date 2024-03-01 main
 ```
 
-#### Running the Backtester (with Poetry)
+#### Running the Backtester (with uv)
 ```bash
-poetry run python src/backtester.py --ticker AAPL,MSFT,NVDA
+uv run python src/backtester.py --ticker AAPL,MSFT,NVDA
 ```
 
 #### Running the Backtester (with Docker)
@@ -212,8 +216,8 @@ run.bat --ticker AAPL,MSFT,NVDA backtest
 You can optionally specify the start and end dates to backtest over a specific time period.
 
 ```bash
-# With Poetry:
-poetry run python src/backtester.py --ticker AAPL,MSFT,NVDA --start-date 2024-01-01 --end-date 2024-03-01
+# With uv:
+uv run python src/backtester.py --ticker AAPL,MSFT,NVDA --start-date 2024-01-01 --end-date 2024-03-01
 
 # With Docker (from docker/ directory):
 # On Linux/Mac:
@@ -225,8 +229,8 @@ run.bat --ticker AAPL,MSFT,NVDA --start-date 2024-01-01 --end-date 2024-03-01 ba
 
 You can also specify a `--ollama` flag to run the backtester using local LLMs.
 ```bash
-# With Poetry:
-poetry run python src/backtester.py --ticker AAPL,MSFT,NVDA --ollama
+# With uv:
+uv run python src/backtester.py --ticker AAPL,MSFT,NVDA --ollama
 
 # With Docker (from docker/ directory):
 # On Linux/Mac:
@@ -262,7 +266,7 @@ cd app
 ```
 
 **That's it!** These scripts will:
-1. Check for required dependencies (Node.js, Python, Poetry)
+1. Check for required dependencies (Node.js, Python, uv)
 2. Install all dependencies automatically  
 3. Start both frontend and backend services
 4. **Automatically open your web browser** to the application

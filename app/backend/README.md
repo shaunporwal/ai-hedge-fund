@@ -11,7 +11,7 @@ This backend is designed to work with a future frontend application that will al
 
 ## Installation
 
-### Using Poetry
+### Using uv
 
 1. Clone the repository:
 ```bash
@@ -19,15 +19,19 @@ git clone https://github.com/virattt/ai-hedge-fund.git
 cd ai-hedge-fund
 ```
 
-2. Install Poetry (if not already installed):
+2. Install uv (if not already installed):
 ```bash
-curl -sSL https://install.python-poetry.org | python3 -
+# On macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# On Windows
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
 3. Install dependencies:
 ```bash
 # From the root directory
-poetry install
+uv sync
 ```
 
 4. Set up your environment variables:
@@ -53,11 +57,8 @@ FINANCIAL_DATASETS_API_KEY=your-financial-datasets-api-key
 To run the development server:
 
 ```bash
-# Navigate to the backend directory
-cd app/backend
-
-# Start the FastAPI server with uvicorn
-poetry run uvicorn main:app --reload
+# From the root directory
+uv run uvicorn app.backend.main:app --reload
 ```
 
 This will start the FastAPI server with hot-reloading enabled.

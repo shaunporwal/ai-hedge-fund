@@ -35,28 +35,28 @@ if %errorlevel% neq 0 (
     )
 )
 
-REM Check Poetry
-where poetry >nul 2>&1
+REM Check uv
+where uv >nul 2>&1
 if %errorlevel% neq 0 (
-    echo %WARNING% Poetry is not installed.
-    echo %INFO% Poetry is required to manage Python dependencies for this project.
+    echo %WARNING% uv is not installed.
+    echo %INFO% uv is required to manage Python dependencies for this project.
     echo.
-    set /p install_poetry="Would you like to install Poetry automatically? (y/N): "
-    if /i "%install_poetry%"=="y" (
-        echo %INFO% Installing Poetry...
-        python -m pip install poetry
+    set /p install_uv="Would you like to install uv automatically? (y/N): "
+    if /i "%install_uv%"=="y" (
+        echo %INFO% Installing uv...
+        powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
         if %errorlevel% neq 0 (
-            echo %ERROR% Failed to install Poetry automatically.
-            echo %ERROR% Please install Poetry manually from https://python-poetry.org/
+            echo %ERROR% Failed to install uv automatically.
+            echo %ERROR% Please install uv manually from https://docs.astral.sh/uv/
             pause
             exit /b 1
         )
-        echo %SUCCESS% Poetry installed successfully!
+        echo %SUCCESS% uv installed successfully!
         echo %INFO% Refreshing environment...
         call refreshenv >nul 2>&1 || echo %WARNING% Could not refresh environment. You may need to restart your terminal.
     ) else (
-        echo %ERROR% Poetry is required to run this application.
-        echo %ERROR% Please install Poetry from https://python-poetry.org/ and run this script again.
+        echo %ERROR% uv is required to run this application.
+        echo %ERROR% Please install uv from https://docs.astral.sh/uv/ and run this script again.
         pause
         exit /b 1
     )
@@ -104,14 +104,13 @@ if not exist "..\.env" (
 
 REM Install backend dependencies
 echo %INFO% Installing backend dependencies...
-cd backend
+cd ..
 
-poetry check >nul 2>&1
-if %errorlevel% equ 0 (
+if exist ".venv" (
     echo %SUCCESS% Backend dependencies already installed!
 ) else (
-    echo %INFO% Installing Python dependencies with Poetry...
-    poetry install
+    echo %INFO% Installing Python dependencies with uv...
+    uv sync
     if %errorlevel% neq 0 (
         echo %ERROR% Failed to install backend dependencies
         pause
@@ -120,7 +119,7 @@ if %errorlevel% equ 0 (
     echo %SUCCESS% Backend dependencies installed!
 )
 
-cd ..
+cd app
 
 REM Install frontend dependencies
 echo %INFO% Installing frontend dependencies...
@@ -150,7 +149,7 @@ REM Start backend
 echo %INFO% Launching backend server...
 REM Run from project root to ensure proper Python imports
 cd ..
-start /b poetry run uvicorn app.backend.main:app --reload --host 127.0.0.1 --port 8000
+start /b uv run uvicorn app.backend.main:app --reload --host 127.0.0.1 --port 8000
 cd app
 
 timeout /t 3 /nobreak >nul
